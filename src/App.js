@@ -1,25 +1,21 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import React from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
-import Header from "./components/header/header.component";
-import HomePage from "./components/pages/homepage/homepage.component";
 import {
   auth,
   createUserProfileDocument,
-} from "./components/firebase/firebase.utils";
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
-import { selectCurrentUser } from "./redux/users/user.selectors";
-import { setCurrentUser } from "./redux/users/user-action";
+} from './components/firebase/firebase.utils';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { selectCurrentUser } from './redux/users/user.selectors';
+import { setCurrentUser } from './redux/users/user-action';
 
-import SignInAndSignupPage from "./components/pages/sign-and-signup-page/sign-and-signup-page.component";
-import ShopPage from "./components/pages/shop/shop.component";
-import Hats from "./components/pages/hats/hats.components";
+import Header from './components/header/header.component';
+
+import HomePage from './pages/homepage/homepage.component';
+import SignInAndSignupPage from './pages/sign-and-signup-page/sign-and-signup-page.component';
+import CheckOutPage from './pages/checkout/checkout.component';
+import ShopPage from './pages/shop/shop.component';
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
@@ -50,25 +46,23 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Router>
-          <Header />
-          <Switch>
-            <Route path="/" exact component={HomePage} />
-            <Route
-              path="/signin"
-              exact
-              render={() =>
-                this.props.currentUser ? (
-                  <Redirect to="/" />
-                ) : (
-                  <SignInAndSignupPage />
-                )
-              }
-            />
-            <Route path="/shop" exact component={ShopPage} />
-            <Route path="/shop/hats" exact component={Hats} />
-          </Switch>
-        </Router>
+        <Header />
+        <Switch>
+          <Route path="/" exact component={HomePage} />
+          <Route
+            path="/signin"
+            exact
+            render={() =>
+              this.props.currentUser ? (
+                <Redirect to="/" />
+              ) : (
+                <SignInAndSignupPage />
+              )
+            }
+          />
+          <Route path="/shop" component={ShopPage} />
+          <Route path="/checkout" exact component={CheckOutPage} />
+        </Switch>
       </div>
     );
   }
